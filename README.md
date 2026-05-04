@@ -1,17 +1,21 @@
-# 世界知识文档 (World Knowledge Docs)
+# 世界知识文档 (World Knowledge Docs) — Markdown CMS v1.0.0
 
-API 文档管理系统，支持 Markdown 文档存储、在线编辑、多语言、深色模式等功能。
+基于 Next.js 16 的 Markdown 内容管理系统，支持文档管理、在线编辑、多语言、深色模式、权限控制等功能。
 
 ## 功能特性
 
 - **Markdown 文档管理** — 基于文件系统的 Markdown 文档存储，支持 YAML frontmatter
-- **在线编辑** — 后台管理支持 Markdown 实时编辑与预览
+- **在线编辑** — 后台管理支持 Markdown 实时编辑与预览（@uiw/react-md-editor）
+- **分类排序管理** — 后台可视化调整前端侧边栏分类顺序
 - **多语言支持** — 中英文切换，语言偏好通过 Cookie 持久化
 - **深色模式** — 支持亮色/深色主题切换
 - **全局搜索** — 全站文档全文搜索
-- **GitHub 风格渲染** — Markdown 内容以 GitHub 风格展示，含代码语法高亮
+- **GitHub 风格渲染** — Markdown 内容以 GitHub 风格展示，含代码语法高亮（prism-react-renderer）
 - **权限管理** — 管理员/编辑者/查看者角色控制
+- **用户管理** — 后台用户创建、角色分配、删除
+- **修改密码** — 支持管理员在线修改密码
 - **版本历史** — 文档编辑历史记录与回溯
+- **面包屑导航** — 管理后台全局面包屑导航+主页快捷入口
 
 ## 技术栈
 
@@ -42,23 +46,39 @@ npm start
 
 访问 [http://localhost:3000](http://localhost:3000) 查看文档。
 
+默认管理账号：`admin` / `admin123`
+
 ## 项目结构
 
 ```
-content/docs/          # Markdown 文档文件
+content/
+  docs/                  # Markdown 文档文件 (en/zh)
+  categories.json        # 分类排序配置
 src/
   app/
-    docs/              # 文档查看页面
-    admin/             # 管理后台
-    api/               # API 路由
-  components/          # UI 组件
-    admin/             # 后台管理组件
-  lib/                 # 工具库 (数据库、认证、文档读写)
+    docs/                # 文档查看页面 (含 TOC、前后导航、版权)
+    admin/               # 管理后台
+      (dashboard)/       # 仪表盘、文档管理、用户管理、分类排序、修改密码
+      login/             # 登录页
+    api/                 # API 路由 (auth/documents/search/categories)
+  components/
+    Sidebar.tsx          # 前端侧边栏 (含版本号)
+    TableOfContents.tsx  # 右侧目录导航
+    CodeBlock.tsx        # 代码高亮
+    admin/               # 后台管理组件
+  lib/                   # 工具库 (数据库、认证、文档读写)
 ```
 
 ## 管理后台
 
-访问 `/admin/login` 登录管理后台，可进行文档的创建、编辑、删除和用户管理。
+| 功能 | 路径 |
+|------|------|
+| 仪表盘 | `/admin` |
+| 文档管理 | `/admin/documents` |
+| 新建文档 | `/admin/documents/new` |
+| 分类排序 | `/admin/categories` |
+| 用户管理 | `/admin/users` |
+| 修改密码 | `/admin/password` |
 
 ## 部署
 
