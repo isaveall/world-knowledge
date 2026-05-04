@@ -60,6 +60,66 @@ src/
 
 访问 `/admin/login` 登录管理后台，可进行文档的创建、编辑、删除和用户管理。
 
+## 部署
+
+### 方案一：VPS / 服务器部署（推荐）
+
+```bash
+# 克隆代码
+git clone https://github.com/isaveall/world-knowledge.git
+cd world-knowledge
+npm install
+npm run build
+
+# 使用 PM2 守护进程
+npm install -g pm2
+pm2 start npm --name "world-knowledge" -- start
+pm2 save
+pm2 startup
+```
+
+Nginx 反代配置：
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+### 方案二：Vercel
+
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+> 注意：使用 `better-sqlite3`，Vercel 需要额外配置 Serverless Function。
+
+### 方案三：Docker
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+```bash
+docker build -t world-knowledge .
+docker run -d -p 3000:3000 --name wk world-knowledge
+```
+
 ## License
 
 Copyright © 2026 iSaveall, 骏九文化 Inc.
