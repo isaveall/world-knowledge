@@ -86,3 +86,13 @@ export function deleteUser(userId: number): boolean {
   const result = db.prepare('DELETE FROM users WHERE id = ?').run(userId);
   return result.changes > 0;
 }
+
+export function changePassword(userId: number, oldPassword: string, newPassword: string): { success: boolean; error?: string } {
+  const db = getDb();
+  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(userId) as { password_hash: string } | undefined;
+  if (!user) return { success: false, error: 'User not found' };
+  if (!verifyPassword(oldPassword, user.password_hash)) return { success: false, error: 'Current password is incorrect' };
+  const hash = hashPassword(newPassword);
+  db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(hash, userId);
+  return { success: true };
+}
