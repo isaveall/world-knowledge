@@ -107,7 +107,20 @@ export function getSidebarCategories(lang: string = 'en'): SidebarCategory[] {
     });
   }
 
-  return Array.from(categoryMap.values());
+  const categories = Array.from(categoryMap.values());
+  const catOrder = getCategoryOrder();
+  if (catOrder.length > 0) {
+    const orderMap = new Map(catOrder.map((name, idx) => [name, idx]));
+    categories.sort((a, b) => {
+      const ai = orderMap.get(a.name);
+      const bi = orderMap.get(b.name);
+      if (ai !== undefined && bi !== undefined) return ai - bi;
+      if (ai !== undefined) return -1;
+      if (bi !== undefined) return 1;
+      return a.name.localeCompare(b.name);
+    });
+  }
+  return categories;
 }
 
 export function extractToc(content: string): TocItem[] {
@@ -184,4 +197,26 @@ export function encodeSlug(slug: string): string {
 // URL helper: decode a URL-encoded slug
 export function decodeSlug(slug: string): string {
   return slug.split('/').map(decodeURIComponent).join('/');
+}
+
+const CATEGORY_CONFIG_PATH = path.join(process.cwd(), 'content', 'categories.json');
+
+export function getCategoryOrder(): string[] {
+  try {
+    if (fs.existsSync(CATEGORY_CONFIG_PATH)) {
+      const raw = fs.readFileSync(CATEGORY_CONFIG_PATH, 'utf-8');
+      const data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [];
+    }
+  } catch { /* ignore */ }
+  return [];
+}
+
+export function saveCategoryOrder(categories: string[]): boolean {
+  try {
+    const dir = path.dirname(CATEGORY_CONFIG_PATH);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(CATEGORY_CONFIG_PATH, JSON.stringify(categories, null, 2), 'utf-8');
+    return true;
+  } catch { return false; }
 }

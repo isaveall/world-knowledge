@@ -20,6 +20,7 @@ function AdminBreadcrumb() {
     'new': t('admin.newDoc'),
     'edit': t('admin.edit'),
     'users': t('admin.users'),
+    'categories': t('admin.categories'),
   };
 
   const breadcrumbs = segments.length === 0

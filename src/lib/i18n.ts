@@ -109,7 +109,7 @@ const t: Record<Lang, Record<string, string>> = {
     'admin.logout': '退出登录',
     'admin.changePassword': '修改密码',
     'admin.totalDocs': '文档总数',
-    'admin.categories': '分类数',
+    'admin.categories': '分类管理',
     'admin.apiEndpoints': 'API 接口数',
     'admin.recentlyUpdated': '最近更新',
     'admin.edit': '编辑',
