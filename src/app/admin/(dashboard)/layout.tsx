@@ -32,6 +32,11 @@ function AdminBreadcrumb() {
 
   return (
     <nav className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 min-w-0">
+      <Link href="/" className="shrink-0 hover:text-gray-900 dark:hover:text-white transition-colors" title={lang === 'zh' ? '返回首页' : 'Home'}>
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
+        </svg>
+      </Link>
       {breadcrumbs.map((crumb, i) => (
         <span key={crumb.href} className="flex items-center gap-2 min-w-0">
           {i > 0 && (
