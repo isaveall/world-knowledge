@@ -25,7 +25,7 @@ export default function AdminSidebar() {
   };
 
   return (
-    <aside className="w-64 shrink-0 bg-gray-900 text-gray-300 flex flex-col min-h-screen">
+    <aside className="w-64 shrink-0 bg-gray-900 text-gray-300 flex flex-col h-screen sticky top-0">
       <div className="p-5 border-b border-gray-800">
         <Link href="/admin" className="text-lg font-bold text-white">Doc Admin</Link>
       </div>
