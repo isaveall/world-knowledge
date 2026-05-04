@@ -26,7 +26,7 @@ export default function Sidebar({ categories, lang }: { categories: SidebarCateg
   const title = '世界知识文档';
 
   return (
-    <aside className="w-64 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 overflow-y-auto h-screen sticky top-0 flex flex-col">
+    <aside className="w-64 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 h-screen sticky top-0 flex flex-col">
       <div className="px-4 py-[14px] border-b border-gray-200 dark:border-gray-800">
         <Link href="/" className="flex items-center gap-2.5 text-xl font-extrabold text-gray-900 dark:text-white">
           <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
@@ -36,7 +36,7 @@ export default function Sidebar({ categories, lang }: { categories: SidebarCateg
           {title}
         </Link>
       </div>
-      <nav className="p-3">
+      <nav className="flex-1 overflow-y-auto p-3">
         {categories.map(cat => (
           <div key={cat.name} className="mb-2">
             <button
@@ -81,7 +81,7 @@ export default function Sidebar({ categories, lang }: { categories: SidebarCateg
         ))}
       </nav>
       <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-800 text-xs text-gray-400 dark:text-gray-500">
-        v1.0.0
+        Markdown CMS v1.0.0
       </div>
     </aside>
   );
