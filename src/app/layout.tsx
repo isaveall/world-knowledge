@@ -4,7 +4,7 @@ import Providers from "./Providers";
 import LanguageProvider from "./LanguageContext";
 
 export const metadata: Metadata = {
-  title: "API Documentation",
+  title: "世界知识管理系统",
   description: "API Documentation Management System",
 };
 
