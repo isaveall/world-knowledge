@@ -1,4 +1,4 @@
-# 世界知识文档 (World Knowledge Docs) — Markdown CMS v1.0.0
+# 世界知识文档 (World Knowledge Docs) — Markdown CMS v1.0.1
 
 基于 Next.js 16 的 Markdown 内容管理系统，支持文档管理、在线编辑、多语言、深色模式、权限控制等功能。
 
@@ -84,6 +84,8 @@ src/
 
 ### 方案一：VPS / 服务器部署（推荐）
 
+#### 方式 A：Git 克隆部署
+
 ```bash
 # 克隆代码
 git clone https://github.com/isaveall/world-knowledge.git
@@ -95,44 +97,82 @@ npm run build
 npm install -g pm2
 pm2 start npm --name "world-knowledge" -- start
 pm2 save
-pm2 startup
 ```
 
-Nginx 反代配置：
+#### 方式 B：本地构建后上传部署
+
+适用于生产服务器无 git 或需快速从开发机同步的场景。
+
+```bash
+# 1. 在开发机打包（排除 node_modules、构建产物、git 记录）
+tar --exclude='node_modules' --exclude='.next' --exclude='.git' --exclude='.DS_Store' -czf world-knowledge.tar.gz .
+
+# 2. 上传到服务器
+scp world-knowledge.tar.gz root@your-server:/usr/share/nginx/html/
+
+# 3. 在服务器上解压并部署
+ssh root@your-server
+rm -rf /usr/share/nginx/html/world-knowledge
+cd /usr/share/nginx/html
+tar xzf world-knowledge.tar.gz -C world-knowledge
+rm world-knowledge.tar.gz
+
+# 4. 确保 Node.js 版本 ≥ 18（建议 20+）
+source ~/.nvm/nvm.sh
+nvm install 20
+nvm alias default 20
+
+# 5. 安装依赖并构建
+cd /usr/share/nginx/html/world-knowledge
+npm ci
+npm run build
+
+# 6. PM2 启动
+npm install -g pm2
+pm2 start npm --name "world-knowledge" -- start
+pm2 save
+```
+
+### Nginx 反代配置
 
 ```nginx
+# 标准配置（端口 80/443）
 server {
     listen 80;
     server_name your-domain.com;
 
     location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
-
-# 我的设置实例
-#增加一个端口号为3000的块,用于作为world-knowledge应用的反向代理
-server {
-    listen 8096;
-    server_name www.heyanper.top;  # 改成你的域名或 IP
-    root /usr/share/nginx/html/world-knowledge;
-
-    # 后端 —— 反向代理到 next.js
-    location / {
-        proxy_pass http://127.0.0.1:3000;
+        proxy_pass http://127.0.0.1:3002;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
+        proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-  }
+    }
+
+    client_max_body_size 20m;
 }
 
+# 自定义端口配置（如 8443 映射到内部端口 3002）
+server {
+    listen 8443;
+    server_name www.heyanper.top;
+
+    location / {
+        proxy_pass http://127.0.0.1:3002;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host:8443;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    client_max_body_size 20m;
+}
 ```
 
 ### 方案二：Vercel
