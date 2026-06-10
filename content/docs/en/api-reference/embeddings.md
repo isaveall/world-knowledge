@@ -1,13 +1,14 @@
 ---
-title: "Embeddings"
-category: "API Reference"
+title: Embeddings
+category: API Reference
 order: 2
-tags: ["api", "embeddings", "vectors"]
-api_method: "POST"
-api_path: "/v1/embeddings"
+tags:
+  - api
+  - embeddings
+  - vectors
+api_method: POST
+api_path: /v1/embeddings
 ---
-
-# Embeddings
 
 Creates an embedding vector representing the input text.
 

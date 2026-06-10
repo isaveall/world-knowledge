@@ -111,6 +111,28 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
     }
 }
+
+# 我的设置实例
+#增加一个端口号为3000的块,用于作为world-knowledge应用的反向代理
+server {
+    listen 8096;
+    server_name www.heyanper.top;  # 改成你的域名或 IP
+    root /usr/share/nginx/html/world-knowledge;
+
+    # 后端 —— 反向代理到 next.js
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+  }
+}
+
 ```
 
 ### 方案二：Vercel

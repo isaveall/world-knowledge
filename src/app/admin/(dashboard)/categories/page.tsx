@@ -87,7 +87,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-8">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">

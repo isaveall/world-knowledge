@@ -1,13 +1,14 @@
 ---
-title: "Chat Completions"
-category: "API Reference"
+title: Chat Completions
+category: API Reference
 order: 1
-tags: ["api", "chat", "completions"]
-api_method: "POST"
-api_path: "/v1/chat/completions"
+tags:
+  - api
+  - chat
+  - completions
+api_method: POST
+api_path: /v1/chat/completions
 ---
-
-# Chat Completions
 
 Creates a model response for the given chat conversation.
 

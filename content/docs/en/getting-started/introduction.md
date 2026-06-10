@@ -1,11 +1,11 @@
 ---
-title: "Introduction"
-category: "Getting Started"
+title: Introduction
+category: Getting Started
 order: 1
-tags: ["introduction", "overview"]
+tags:
+  - introduction
+  - overview
 ---
-
-# Introduction
 
 Welcome to the API Documentation. This platform provides powerful APIs for building intelligent applications.
 

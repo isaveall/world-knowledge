@@ -1,13 +1,13 @@
 ---
-title: "List Models"
-category: "API Reference"
+title: List Models
+category: API Reference
 order: 3
-tags: ["api", "models"]
-api_method: "GET"
-api_path: "/v1/models"
+tags:
+  - api
+  - models
+api_method: GET
+api_path: /v1/models
 ---
-
-# List Models
 
 Lists the currently available models.
 

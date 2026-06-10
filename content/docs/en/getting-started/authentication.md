@@ -1,11 +1,11 @@
 ---
-title: "Authentication"
-category: "Getting Started"
+title: Authentication
+category: Getting Started
 order: 2
-tags: ["auth", "api-key"]
+tags:
+  - auth
+  - api-key
 ---
-
-# Authentication
 
 ## API Keys
 

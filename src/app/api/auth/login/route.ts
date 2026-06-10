@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   const response = NextResponse.json({ user, token });
   response.cookies.set('auth_token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     sameSite: 'lax',
     maxAge: 86400,
     path: '/',

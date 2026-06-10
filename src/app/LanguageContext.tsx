@@ -9,7 +9,7 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType>({
-  lang: 'en',
+  lang: 'zh',
   setLang: () => {},
 });
 
@@ -18,7 +18,7 @@ export function useLanguage() {
 }
 
 export default function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('en');
+  const [lang, setLangState] = useState<Lang>('zh');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
